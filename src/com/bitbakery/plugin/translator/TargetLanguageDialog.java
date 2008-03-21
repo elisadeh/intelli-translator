@@ -19,7 +19,6 @@ public class TargetLanguageDialog extends JDialog {
         LANGUAGES = new HashMap<String, String>();
         LANGUAGES.put(display(ARABIC), ARABIC);
         LANGUAGES.put(display(CHINESE), CHINESE);
-        LANGUAGES.put(display(CHINESE_SIMPLIFIED), CHINESE_SIMPLIFIED);
         LANGUAGES.put(display(DUTCH), DUTCH);
         LANGUAGES.put(display(ENGLISH), ENGLISH);
         LANGUAGES.put(display(FRENCH), FRENCH);
