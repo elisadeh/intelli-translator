@@ -1,68 +1,53 @@
 package com.bitbakery.plugin.translator;
 
-import static com.google.api.translate.Language.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
 
 /**
  * Displays the target languages to which we can translate the selcted string.
  */
 public class TargetLanguageDialog extends JDialog {
-    private static HashMap<String, String> LANGUAGES;
-
-    static {
-        LANGUAGES = new HashMap<String, String>();
-        LANGUAGES.put(display(ARABIC), ARABIC);
-        LANGUAGES.put(display(CHINESE), CHINESE);
-        LANGUAGES.put(display(DUTCH), DUTCH);
-        LANGUAGES.put(display(ENGLISH), ENGLISH);
-        LANGUAGES.put(display(FRENCH), FRENCH);
-        LANGUAGES.put(display(GERMAN), GERMAN);
-        LANGUAGES.put(display(GREEK), GREEK);
-        LANGUAGES.put(display(ITALIAN), ITALIAN);
-        LANGUAGES.put(display(JAPANESE), JAPANESE);
-        LANGUAGES.put(display(KOREAN), KOREAN);
-        LANGUAGES.put(display(PORTUGESE), PORTUGESE);
-        LANGUAGES.put(display(RUSSIAN), RUSSIAN);
-        LANGUAGES.put(display(SPANISH), SPANISH);
-    }
-
-    private static String display(final String lang) {
-        return new Locale(lang).getDisplayLanguage();
-    }
-
     private JList list;
-    private String selectedLanguage;
+    private String selectedLanguageCode;
 
-    public TargetLanguageDialog() throws HeadlessException {
+    public TargetLanguageDialog(String sourceLanguage) throws HeadlessException {
         setUndecorated(true);
         setModal(true);
-        add(buildLanguageList());
+        add(buildLanguageList(sourceLanguage));
         pack();
     }
 
-    private JList buildLanguageList() {
-        list = new JList(new HashSet(LANGUAGES.keySet()).toArray());
+    private JList buildLanguageList(final String sourceLanguage) {
+        list = new JList(Languages.getLanguageNames(sourceLanguage));
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
         list.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent event) {
                 if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-                    selectedLanguage = LANGUAGES.get(list.getSelectedValue());
-                    close(event);
+                    selectAndClose(event, sourceLanguage);
                 } else if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     close(event);
+                }
+            }
+
+            public void keyPressed(KeyEvent event) {
+                if (event.getKeyCode() == KeyEvent.VK_UP) {
+                    if (list.getSelectedIndex() <= 0) {
+                        list.setSelectedIndex(getLastIndex());
+                        event.consume();
+                    }
+                } else if (event.getKeyCode() == KeyEvent.VK_DOWN) {
+                    if (list.getSelectedIndex() >= getLastIndex()) {
+                        list.setSelectedIndex(0);
+                        event.consume();
+                    }
                 }
             }
         });
         list.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent event) {
-                selectedLanguage = LANGUAGES.get(list.getSelectedValue());
-                close(event);
+                selectAndClose(event, sourceLanguage);
             }
         });
         list.addFocusListener(new FocusAdapter() {
@@ -74,15 +59,24 @@ public class TargetLanguageDialog extends JDialog {
         return list;
     }
 
-    public String showDialog(Point location) {
-        setLocation(location);
-        setVisible(true);
-        return selectedLanguage;
+    private void selectAndClose(InputEvent event, String sourceLanguage) {
+        selectedLanguageCode = Languages.getLanguageCode(sourceLanguage, (String) list.getSelectedValue());
+        close(event);
     }
 
     private void close(InputEvent event) {
         setVisible(false);
         event.consume();
         dispose();
+    }
+
+    private int getLastIndex() {
+        return list.getModel().getSize() - 1;
+    }
+
+    public String showDialog(Point location) {
+        setLocation(location);
+        setVisible(true);
+        return selectedLanguageCode;
     }
 }

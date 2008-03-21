@@ -7,8 +7,21 @@
 
     <idea-version since-build="3000"/>
 
+    <change-notes>
+    </change-notes>
+
+    <resource-bundle>com.bitbakery.plugin.translator.TranslatorStrings</resource-bundle>
+
+    <!--
+        <application-components>
+            <component>
+                <implementation-class>com.bitbakery.plugin.translator.TranslatorConfig</implementation-class>
+            </component>
+        </application-components>
+    -->
+
     <actions>
-        <action id="com.bitbakery.plugin.translator.TranslationAction" 
+        <action id="com.bitbakery.plugin.translator.TranslationAction"
                 class="com.bitbakery.plugin.translator.TranslationAction" text="Translate"
                 description="Use Google Translate to translate the selected text">
 
