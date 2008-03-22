@@ -81,13 +81,21 @@ public class Languages {
         return new Locale(lang, dialect).getDisplayLanguage();
     }
 
-    public static String[] getLanguageNames(String source) {
-        String[] languages = TRANSLATIONS.get(source).keySet().toArray(new String[]{});
+    public static String[] getTargetLanguages(String source) {
+        HashMap<String, String> targetMap = TRANSLATIONS.get(source);
+        if (targetMap == null) {
+            return new String[0];
+        }
+        String[] languages = targetMap.keySet().toArray(new String[targetMap.keySet().size()]);
         Arrays.sort(languages);
         return languages;
     }
 
     public static String getLanguageCode(String source, String name) {
         return TRANSLATIONS.get(source).get(name);
+    }
+
+    public static String[] getSourceLanguages() {
+        return TRANSLATIONS.keySet().toArray(new String[TRANSLATIONS.keySet().size()]);
     }
 }
