@@ -10,15 +10,15 @@
     <change-notes>
     </change-notes>
 
-    <resource-bundle>com.bitbakery.plugin.translator.TranslatorStrings</resource-bundle>
-
     <!--
-        <application-components>
-            <component>
-                <implementation-class>com.bitbakery.plugin.translator.TranslatorConfig</implementation-class>
-            </component>
-        </application-components>
+        <resource-bundle>com.bitbakery.plugin.translator.TranslatorStrings</resource-bundle>
     -->
+
+    <application-components>
+        <component>
+            <implementation-class>com.bitbakery.plugin.translator.TranslatorConfig</implementation-class>
+        </component>
+    </application-components>
 
     <actions>
         <action id="com.bitbakery.plugin.translator.TranslationAction"
