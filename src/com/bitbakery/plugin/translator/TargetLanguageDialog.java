@@ -19,7 +19,7 @@ public class TargetLanguageDialog extends JDialog {
     }
 
     private JList buildLanguageList(final String sourceLanguage) {
-        list = new JList(Languages.getLanguageNames(sourceLanguage));
+        list = new JList(Languages.getTargetLanguages(sourceLanguage));
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         list.addKeyListener(new KeyAdapter() {
