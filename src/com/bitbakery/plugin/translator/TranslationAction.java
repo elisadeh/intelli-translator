@@ -4,6 +4,7 @@ import com.google.api.translate.Translate;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
@@ -25,15 +26,21 @@ public class TranslationAction extends AnAction {
             return;
         }
         final Project project = e.getData(DataKeys.PROJECT);
+        final TranslatorConfig config = ApplicationManager.getApplication().getComponent(TranslatorConfig.class);
 
         // TODO - This should be configurable, defaulting to the defaultLanguage
         final String source = Locale.getDefault().getLanguage();
 
-        TargetLanguageDialog dlg = new TargetLanguageDialog(Languages.display(source));
-        final String target = dlg.showDialog(getCaretPosition(ed));
+        final String target;
+        if (config.isTargetLanguageSticky()) {
+            target = config.getTargetLanguage();
+
+        } else {
+            TargetLanguageDialog dlg = new TargetLanguageDialog(Languages.display(source));
+            target = dlg.showDialog(getCaretPosition(ed));
+        }
 
         if (target != null) {
-
             (new WriteCommandAction.Simple(project) {
                 protected void run() throws Throwable {
                     try {
@@ -47,8 +54,9 @@ public class TranslationAction extends AnAction {
                                 sel.getSelectionEnd(),
                                 Translate.translate(text, source, target));
 
-                        // TODO: Might be nice to have this configurable...
-                        sel.setSelection(ed.getCaretModel().getOffset(), ed.getCaretModel().getOffset());
+                        if (!config.isSelectionSticky()) {
+                            sel.setSelection(ed.getCaretModel().getOffset(), ed.getCaretModel().getOffset());
+                        }
 
                     } catch (Exception ex) {
                         // TODO - Real error handling might be nice...
