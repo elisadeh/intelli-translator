@@ -1,6 +1,10 @@
 package com.bitbakery.plugin.translator;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 /**
  * The configuration form for the Translator plugin. This is accessible from the IntelliJ settings dialog.
@@ -12,6 +16,33 @@ public class TranslatorConfigForm {
     private JCheckBox isSourceDefaultLanguage;
     private JComboBox sourceLanguages;
     private JPanel rootComponent;
+
+    public TranslatorConfigForm() {
+        for (String source : Languages.getSourceLanguages()) {
+            sourceLanguages.addItem(source);
+        }
+        sourceLanguages.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent event) {
+                targetLanguages.removeAllItems();
+                String source = (String) sourceLanguages.getSelectedItem();
+                for (String target : Languages.getTargetLanguages(source)) {
+                    targetLanguages.addItem(target);
+                }
+            }
+        });
+
+        isSourceDefaultLanguage.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                sourceLanguages.setEnabled(!isSourceDefaultLanguage.isSelected());
+            }
+        });
+
+        isTargetLanguageSticky.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                targetLanguages.setEnabled(isTargetLanguageSticky.isSelected());
+            }
+        });
+    }
 
     public JPanel getRootComponent() {
         return rootComponent;
