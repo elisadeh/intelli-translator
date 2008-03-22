@@ -1,8 +1,12 @@
 package com.bitbakery.plugin.translator;
 
+import com.intellij.openapi.components.ApplicationComponent;
+import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
+import com.intellij.util.Icons;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -14,8 +18,8 @@ import javax.swing.*;
  * Persists Translator configuration settings
  */
 @State(name = "TranslatorConfig",
-        storages = {@Storage(id = "main", file = "$APP_CONFIG$/translator-settings.xml")})
-public class TranslatorConfig { // implements ApplicationComponent, Configurable, PersistentStateComponent<TranslatorConfig> {
+        storages = {@Storage(id = "main", file = "$APP_CONFIG$/trn-settings.xml")})
+public class TranslatorConfig implements ApplicationComponent, Configurable, PersistentStateComponent<TranslatorConfig> {
 
     public boolean isTargetLanguageSticky;
     public boolean isSelectionSticky;
@@ -42,11 +46,11 @@ public class TranslatorConfig { // implements ApplicationComponent, Configurable
 
     @Nls
     public String getDisplayName() {
-        return null; //TranslatorStrings.message("plugin.translator.name");
+        return TranslatorStrings.message("plugin.translator.name");
     }
 
     public Icon getIcon() {
-        return null; //return Icons.EJB_CREATE_METHOD_ICON; // TODO - Find a better icon
+        return Icons.CLASS_ICON; // TODO - Find a better icon
     }
 
     @Nullable
