@@ -31,6 +31,10 @@ public class TranslatorConfigForm {
             }
         });
 
+        // TODO - Bug - If no source language is selected, then we need to specify the current default language
+        // TODO          as the source, and then we must still populate the target languages, because a user might
+        // TODO          want to roll with the default source, and still specify a constant target language.
+
         isSourceDefaultLanguage.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 sourceLanguages.setEnabled(!isSourceDefaultLanguage.isSelected());
