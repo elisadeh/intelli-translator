@@ -6,7 +6,6 @@ import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
-import com.intellij.util.Icons;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -18,14 +17,13 @@ import javax.swing.*;
  * Persists Translator configuration settings
  */
 @State(name = "TranslatorConfig",
-        storages = {@Storage(id = "main", file = "$APP_CONFIG$/trn-settings.xml")})
+        storages = {@Storage(id = "main", file = "$APP_CONFIG$/translator-settings.xml")})
 public class TranslatorConfig implements ApplicationComponent, Configurable, PersistentStateComponent<TranslatorConfig> {
 
     public boolean isTargetLanguageSticky;
     public boolean isSelectionSticky;
-    public boolean isSourceDefaultLanguage;
-    public String sourceLanguage;
-    public String targetLanguage;
+    public String sourceLanguageCode;
+    public String targetLanguageCode;
 
     private volatile TranslatorConfigForm form;
 
@@ -50,7 +48,7 @@ public class TranslatorConfig implements ApplicationComponent, Configurable, Per
     }
 
     public Icon getIcon() {
-        return Icons.CLASS_ICON; // TODO - Find a better icon
+        return TranslatorIcons.GLOBE_LARGE_ICON;
     }
 
     @Nullable
@@ -95,9 +93,8 @@ public class TranslatorConfig implements ApplicationComponent, Configurable, Per
     public void loadState(TranslatorConfig that) {
         this.isSelectionSticky = that.isSelectionSticky;
         this.isTargetLanguageSticky = that.isTargetLanguageSticky;
-        this.isSourceDefaultLanguage = that.isSourceDefaultLanguage;
-        this.sourceLanguage = that.sourceLanguage;
-        this.targetLanguage = that.targetLanguage;
+        this.sourceLanguageCode = that.sourceLanguageCode;
+        this.targetLanguageCode = that.targetLanguageCode;
     }
 
     public boolean isTargetLanguageSticky() {
@@ -116,19 +113,22 @@ public class TranslatorConfig implements ApplicationComponent, Configurable, Per
         this.isSelectionSticky = selectionSticky;
     }
 
-    public boolean isSourceDefaultLanguage() {
-        return isSourceDefaultLanguage;
+    public String getSourceLanguageCode() {
+        if (sourceLanguageCode == null) {
+            sourceLanguageCode = Language.getDefaultLanguage().code;
+        }
+        return sourceLanguageCode;
     }
 
-    public void setSourceDefaultLanguage(boolean sourceDefaultLanguage) {
-        this.isSourceDefaultLanguage = sourceDefaultLanguage;
+    public void setSourceLanguageCode(String sourceLanguageCode) {
+        this.sourceLanguageCode = sourceLanguageCode;
     }
 
-    public String getSourceLanguage() {
-        return sourceLanguage;
+    public String getTargetLanguageCode() {
+        return targetLanguageCode;
     }
 
-    public String getTargetLanguage() {
-        return targetLanguage;
+    public void setTargetLanguageCode(String targetLanguageCode) {
+        this.targetLanguageCode = targetLanguageCode;
     }
 }
