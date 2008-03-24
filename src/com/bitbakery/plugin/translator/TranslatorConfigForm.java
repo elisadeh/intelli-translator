@@ -13,34 +13,10 @@ public class TranslatorConfigForm {
     private JCheckBox isTargetLanguageSticky;
     private JCheckBox isSelectionSticky;
     private JComboBox targetLanguages;
-    private JCheckBox isSourceDefaultLanguage;
     private JComboBox sourceLanguages;
     private JPanel rootComponent;
 
     public TranslatorConfigForm() {
-        for (String source : Languages.getSourceLanguages()) {
-            sourceLanguages.addItem(source);
-        }
-        sourceLanguages.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent event) {
-                targetLanguages.removeAllItems();
-                String source = (String) sourceLanguages.getSelectedItem();
-                for (String target : Languages.getTargetLanguages(source)) {
-                    targetLanguages.addItem(target);
-                }
-            }
-        });
-
-        // TODO - Bug - If no source language is selected, then we need to specify the current default language
-        // TODO          as the source, and then we must still populate the target languages, because a user might
-        // TODO          want to roll with the default source, and still specify a constant target language.
-
-        isSourceDefaultLanguage.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                sourceLanguages.setEnabled(!isSourceDefaultLanguage.isSelected());
-            }
-        });
-
         isTargetLanguageSticky.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 targetLanguages.setEnabled(isTargetLanguageSticky.isSelected());
@@ -55,23 +31,34 @@ public class TranslatorConfigForm {
     public void setData(TranslatorConfig data) {
         isTargetLanguageSticky.setSelected(data.isTargetLanguageSticky());
         isSelectionSticky.setSelected(data.isSelectionSticky());
-        isSourceDefaultLanguage.setSelected(data.isSourceDefaultLanguage());
-        targetLanguages.setSelectedItem(data.getTargetLanguage());
-        sourceLanguages.setSelectedItem(data.getSourceLanguage());
+        sourceLanguages.setSelectedItem(Language.get(data.getSourceLanguageCode()));
+
+        hydrateTargetLanguages();
+        Language language = Language.get(data.getTargetLanguageCode());
+        if (language != null) {
+            targetLanguages.setSelectedItem(language);
+        } else {
+            targetLanguages.setSelectedIndex(0);
+        }
+        targetLanguages.setEnabled(isTargetLanguageSticky.isSelected());
     }
 
     public void getData(TranslatorConfig data) {
         data.setTargetLanguageSticky(isTargetLanguageSticky.isSelected());
         data.setSelectionSticky(isSelectionSticky.isSelected());
-        data.setSourceDefaultLanguage(isSourceDefaultLanguage.isSelected());
+        data.setSourceLanguageCode(getCode(sourceLanguages));
+        data.setTargetLanguageCode(getCode(targetLanguages));
+    }
+
+    private String getCode(JComboBox languageComboBox) {
+        return languageComboBox.getSelectedItem() == null ? null : ((Language) languageComboBox.getSelectedItem()).code;
     }
 
     public boolean isModified(TranslatorConfig data) {
         return isModified(isTargetLanguageSticky, data.isTargetLanguageSticky())
                 || isModified(isSelectionSticky, data.isSelectionSticky())
-                || isModified(isSourceDefaultLanguage, data.isSourceDefaultLanguage())
-                || isModified(sourceLanguages, data.getSourceLanguage())
-                || isModified(targetLanguages, data.getTargetLanguage());
+                || isModified(sourceLanguages, data.getSourceLanguageCode())
+                || isModified(targetLanguages, data.getTargetLanguageCode());
     }
 
     private boolean isModified(JCheckBox checkBox, boolean data) {
@@ -79,6 +66,26 @@ public class TranslatorConfigForm {
     }
 
     private boolean isModified(JComboBox comboBox, String data) {
-        return comboBox.getSelectedItem() != null ? !comboBox.getSelectedItem().equals(data) : data != null;
+        return comboBox.getSelectedItem() != null ? !((Language) comboBox.getSelectedItem()).code.equals(data) : data != null;
+    }
+
+    private void createUIComponents() {
+        sourceLanguages = new JComboBox();
+        for (Language source : Language.SOURCE_LANGUAGES) {
+            sourceLanguages.addItem(source);
+        }
+        sourceLanguages.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent event) {
+                hydrateTargetLanguages();
+            }
+        });
+    }
+
+    private void hydrateTargetLanguages() {
+        targetLanguages.removeAllItems();
+        Language source = (Language) sourceLanguages.getSelectedItem();
+        for (Language target : Language.getTargetLanguages(source)) {
+            targetLanguages.addItem(target);
+        }
     }
 }
