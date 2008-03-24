@@ -2,17 +2,13 @@
 <idea-plugin>
     <name>Translator</name>
     <description>Uses Google Translate to translate the selected text</description>
-    <version>0.1</version>
+    <version>0.9</version>
     <vendor>The Bit Bakery</vendor>
 
-    <idea-version since-build="3000"/>
+    <idea-version since-build="7000"/>
 
     <change-notes>
     </change-notes>
-
-    <!--
-        <resource-bundle>com.bitbakery.plugin.translator.TranslatorStrings</resource-bundle>
-    -->
 
     <application-components>
         <component>
@@ -23,7 +19,7 @@
     <actions>
         <action id="com.bitbakery.plugin.translator.TranslationAction"
                 class="com.bitbakery.plugin.translator.TranslationAction" text="Translate"
-                description="Use Google Translate to translate the selected text">
+                description="Use Google Translate to translate the selected text" icon="/icons/globe16.png">
 
             <keyboard-shortcut keymap="$default" first-keystroke="alt T"/>
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
