@@ -9,23 +9,23 @@ import java.awt.event.*;
  */
 public class TargetLanguageDialog extends JDialog {
     private JList list;
-    private String selectedLanguageCode;
+    private Language selectedTarget;
 
-    public TargetLanguageDialog(String sourceLanguage) throws HeadlessException {
+    public TargetLanguageDialog(Language source) throws HeadlessException {
         setUndecorated(true);
         setModal(true);
-        add(buildLanguageList(sourceLanguage));
+        add(buildTargetList(source));
         pack();
     }
 
-    private JList buildLanguageList(final String sourceLanguage) {
-        list = new JList(Languages.getTargetLanguages(sourceLanguage));
+    private JList buildTargetList(final Language source) {
+        list = new JList(Language.getTargetLanguages(source));
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         list.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent event) {
                 if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-                    selectAndClose(event, sourceLanguage);
+                    selectAndClose(event);
                 } else if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     close(event);
                 }
@@ -47,7 +47,7 @@ public class TargetLanguageDialog extends JDialog {
         });
         list.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent event) {
-                selectAndClose(event, sourceLanguage);
+                selectAndClose(event);
             }
         });
         list.addFocusListener(new FocusAdapter() {
@@ -59,8 +59,8 @@ public class TargetLanguageDialog extends JDialog {
         return list;
     }
 
-    private void selectAndClose(InputEvent event, String sourceLanguage) {
-        selectedLanguageCode = Languages.getLanguageCode(sourceLanguage, (String) list.getSelectedValue());
+    private void selectAndClose(InputEvent event) {
+        selectedTarget = (Language) list.getSelectedValue();
         close(event);
     }
 
@@ -74,9 +74,9 @@ public class TargetLanguageDialog extends JDialog {
         return list.getModel().getSize() - 1;
     }
 
-    public String showDialog(Point location) {
+    public Language showDialog(Point location) {
         setLocation(location);
         setVisible(true);
-        return selectedLanguageCode;
+        return selectedTarget;
     }
 }
