@@ -1,5 +1,5 @@
 Translator plugin for IntelliJ IDEA 7.0+
-Version 0.2 - 2008/03/21
+Version 0.9 - 2008/03/24
 ----------------------------------------------------------------------------------------
 
 Requirements
@@ -8,6 +8,7 @@ Requirements
 - IntelliJ 7.0 or higher
   - Tested on Windows, Mac OS X 10.4, and Ubuntu 7.10
 - A live Internet connection
+
 
 
 Features
@@ -28,6 +29,7 @@ Known Issues
 - Clicking outside of the target language selection box doesn't make it go away (it should).
 
 
+
 Bug Reporting
 -------------
 
@@ -41,11 +43,11 @@ http://code.google.com/p/intelli-translator/
 And now a word from our sponsor...
 ----------------------------------
 
-Thank you for trying out Translator. This plugin is very similar to "Google Translator",
-but I needed a slightly different UI for what I needed (to create quick and dirty
-resource files for other languages). Hopefully you'll find it useful as well.
+Thank you for trying out Translator. This plugin is very similar to another plugin
+("Google Translator"), but I needed a slightly different UI for what I needed (to create
+quick and dirty resource files for other languages). Hopefully you'll find it useful as well.
 
 
 
-Thanks in advance for your patience and your feedback,
+Thanks,
 Kurt Christensen
