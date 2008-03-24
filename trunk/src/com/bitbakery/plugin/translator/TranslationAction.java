@@ -14,12 +14,12 @@ import com.intellij.openapi.util.text.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Locale;
 
 /**
  * Event handler for the "Translate" action which appears in the popup menu
  */
 public class TranslationAction extends AnAction {
+
     public void actionPerformed(final AnActionEvent e) {
         final Editor ed = e.getData(DataKeys.EDITOR);
         if (ed == null) {
@@ -27,44 +27,37 @@ public class TranslationAction extends AnAction {
         }
         final Project project = e.getData(DataKeys.PROJECT);
         final TranslatorConfig config = ApplicationManager.getApplication().getComponent(TranslatorConfig.class);
-
-        // TODO - This should be configurable, defaulting to the defaultLanguage
-        final String source = Locale.getDefault().getLanguage();
-
-        final String target;
-        if (config.isTargetLanguageSticky()) {
-            target = config.getTargetLanguage();
-
-        } else {
-            TargetLanguageDialog dlg = new TargetLanguageDialog(Languages.display(source));
-            target = dlg.showDialog(getCaretPosition(ed));
-        }
+        final Language source = Language.get(config.getSourceLanguageCode());
+        final Language target = getTargetLanguage(ed, config, source);
 
         if (target != null) {
             (new WriteCommandAction.Simple(project) {
                 protected void run() throws Throwable {
-                    try {
-                        SelectionModel sel = ed.getSelectionModel();
-                        String text = sel.getSelectedText();
-                        if (StringUtil.isEmptyOrSpaces(text)) {
-                            return;
-                        }
-                        ed.getDocument().replaceString(
-                                sel.getSelectionStart(),
-                                sel.getSelectionEnd(),
-                                Translate.translate(text, source, target));
+                    SelectionModel sel = ed.getSelectionModel();
+                    String text = sel.getSelectedText();
+                    if (StringUtil.isEmptyOrSpaces(text)) {
+                        return;
+                    }
+                    ed.getDocument().replaceString(
+                            sel.getSelectionStart(),
+                            sel.getSelectionEnd(),
+                            Translate.translate(text, source.code, target.code));
 
-                        if (!config.isSelectionSticky()) {
-                            sel.setSelection(ed.getCaretModel().getOffset(), ed.getCaretModel().getOffset());
-                        }
-
-                    } catch (Exception ex) {
-                        // TODO - Real error handling might be nice...
-                        ex.printStackTrace();
+                    if (!config.isSelectionSticky()) {
+                        sel.setSelection(ed.getCaretModel().getOffset(), ed.getCaretModel().getOffset());
                     }
                 }
             }).execute();
         }
+    }
+
+    private Language getTargetLanguage(Editor ed, TranslatorConfig config, Language source) {
+        if (config.isTargetLanguageSticky()) {
+            return Language.get(config.getTargetLanguageCode());
+
+        }
+        TargetLanguageDialog dlg = new TargetLanguageDialog(source);
+        return dlg.showDialog(getCaretPosition(ed));
     }
 
     private Point getCaretPosition(Editor ed) {
