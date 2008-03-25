@@ -1,5 +1,5 @@
 Translator plugin for IntelliJ IDEA 7.0+
-Version 0.9 - 2008/03/24
+Version 1.0 - 2008/03/24
 ----------------------------------------------------------------------------------------
 
 Requirements
@@ -26,7 +26,7 @@ Features
 Known Issues
 ------------
 
-- Clicking outside of the target language selection box doesn't make it go away (it should).
+- No known issues.
 
 
 
