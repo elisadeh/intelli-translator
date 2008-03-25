@@ -34,13 +34,13 @@ public class TranslationAction extends AnAction {
         source = Language.get(config.getSourceLanguageCode());
 
         if (config.isTargetLanguageSticky()) {
-            replaceSource(Language.get(config.getTargetLanguageCode()));
+            translateSelectedText(Language.get(config.getTargetLanguageCode()));
         } else {
             new TargetLanguageDialog(source).showDialog(this, getCaretPosition(editor));
         }
     }
 
-    public void replaceSource(final Language target) {
+    public void translateSelectedText(final Language target) {
         (new WriteCommandAction.Simple(project) {
             protected void run() throws Throwable {
                 SelectionModel sel = editor.getSelectionModel();
