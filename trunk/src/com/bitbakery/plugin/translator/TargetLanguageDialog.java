@@ -13,7 +13,7 @@ public class TargetLanguageDialog extends JDialog {
 
     public TargetLanguageDialog(Language source) throws HeadlessException {
         setUndecorated(true);
-        // setModal(true);
+        setAlwaysOnTop(true);
         add(buildTargetList(source));
         pack();
     }
