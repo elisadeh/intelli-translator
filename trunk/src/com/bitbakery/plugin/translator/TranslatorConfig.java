@@ -20,10 +20,10 @@ import javax.swing.*;
         storages = {@Storage(id = "main", file = "$APP_CONFIG$/translator-settings.xml")})
 public class TranslatorConfig implements ApplicationComponent, Configurable, PersistentStateComponent<TranslatorConfig> {
 
-    public boolean isTargetLanguageSticky;
-    public boolean isSelectionSticky;
-    public String sourceLanguageCode;
-    public String targetLanguageCode;
+    private boolean isTargetLanguageSticky;
+    private boolean isSelectionSticky;
+    private String sourceLanguageCode;
+    private String targetLanguageCode;
 
     private volatile TranslatorConfigForm form;
 
