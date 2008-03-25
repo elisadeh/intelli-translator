@@ -2,7 +2,7 @@
 <idea-plugin>
     <name>Translator</name>
     <description>Uses Google Translate to translate the selected text</description>
-    <version>1.0</version>
+    <version>1.1</version>
     <vendor>The Bit Bakery</vendor>
 
     <idea-version since-build="7000"/>
