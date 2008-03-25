@@ -19,45 +19,45 @@ import java.awt.*;
  * Event handler for the "Translate" action which appears in the popup menu
  */
 public class TranslationAction extends AnAction {
+    private TranslatorConfig config;
+    private Project project;
+    private Editor editor;
+    private Language source;
 
     public void actionPerformed(final AnActionEvent e) {
-        final Editor ed = e.getData(DataKeys.EDITOR);
-        if (ed == null) {
+        editor = e.getData(DataKeys.EDITOR);
+        if (editor == null) {
             return;
         }
-        final Project project = e.getData(DataKeys.PROJECT);
-        final TranslatorConfig config = ApplicationManager.getApplication().getComponent(TranslatorConfig.class);
-        final Language source = Language.get(config.getSourceLanguageCode());
-        final Language target = getTargetLanguage(ed, config, source);
+        project = e.getData(DataKeys.PROJECT);
+        config = ApplicationManager.getApplication().getComponent(TranslatorConfig.class);
+        source = Language.get(config.getSourceLanguageCode());
 
-        if (target != null) {
-            (new WriteCommandAction.Simple(project) {
-                protected void run() throws Throwable {
-                    SelectionModel sel = ed.getSelectionModel();
-                    String text = sel.getSelectedText();
-                    if (StringUtil.isEmptyOrSpaces(text)) {
-                        return;
-                    }
-                    ed.getDocument().replaceString(
-                            sel.getSelectionStart(),
-                            sel.getSelectionEnd(),
-                            Translate.translate(text, source.code, target.code));
-
-                    if (!config.isSelectionSticky()) {
-                        sel.setSelection(ed.getCaretModel().getOffset(), ed.getCaretModel().getOffset());
-                    }
-                }
-            }).execute();
+        if (config.isTargetLanguageSticky()) {
+            replaceSource(Language.get(config.getTargetLanguageCode()));
+        } else {
+            new TargetLanguageDialog(source).showDialog(this, getCaretPosition(editor));
         }
     }
 
-    private Language getTargetLanguage(Editor ed, TranslatorConfig config, Language source) {
-        if (config.isTargetLanguageSticky()) {
-            return Language.get(config.getTargetLanguageCode());
+    public void replaceSource(final Language target) {
+        (new WriteCommandAction.Simple(project) {
+            protected void run() throws Throwable {
+                SelectionModel sel = editor.getSelectionModel();
+                String text = sel.getSelectedText();
+                if (StringUtil.isEmptyOrSpaces(text)) {
+                    return;
+                }
+                editor.getDocument().replaceString(
+                        sel.getSelectionStart(),
+                        sel.getSelectionEnd(),
+                        Translate.translate(text, source.code, target.code));
 
-        }
-        TargetLanguageDialog dlg = new TargetLanguageDialog(source);
-        return dlg.showDialog(getCaretPosition(ed));
+                if (!config.isSelectionSticky()) {
+                    sel.setSelection(editor.getCaretModel().getOffset(), editor.getCaretModel().getOffset());
+                }
+            }
+        }).execute();
     }
 
     private Point getCaretPosition(Editor ed) {
