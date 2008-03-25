@@ -1,6 +1,7 @@
 package com.bitbakery.plugin.translator;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -20,6 +21,7 @@ public class TargetLanguageDialog extends JDialog {
 
     private JList buildTargetList(final Language source) {
         list = new JList(Language.getTargetLanguages(source));
+        list.setBorder(LineBorder.createGrayLineBorder());
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         list.addKeyListener(new KeyAdapter() {
@@ -62,7 +64,7 @@ public class TargetLanguageDialog extends JDialog {
     private void selectAndClose(InputEvent event) {
         Language target = (Language) list.getSelectedValue();
         if (target != null) {
-            action.replaceSource(target);
+            action.translateSelectedText(target);
         }
         close(event);
     }
