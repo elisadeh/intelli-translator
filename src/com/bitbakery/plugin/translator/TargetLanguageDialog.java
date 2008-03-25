@@ -9,11 +9,11 @@ import java.awt.event.*;
  */
 public class TargetLanguageDialog extends JDialog {
     private JList list;
-    private Language selectedTarget;
+    private TranslationAction action;
 
     public TargetLanguageDialog(Language source) throws HeadlessException {
         setUndecorated(true);
-        setModal(true);
+        // setModal(true);
         add(buildTargetList(source));
         pack();
     }
@@ -60,7 +60,10 @@ public class TargetLanguageDialog extends JDialog {
     }
 
     private void selectAndClose(InputEvent event) {
-        selectedTarget = (Language) list.getSelectedValue();
+        Language target = (Language) list.getSelectedValue();
+        if (target != null) {
+            action.replaceSource(target);
+        }
         close(event);
     }
 
@@ -74,9 +77,9 @@ public class TargetLanguageDialog extends JDialog {
         return list.getModel().getSize() - 1;
     }
 
-    public Language showDialog(Point location) {
+    public void showDialog(TranslationAction action, Point location) {
+        this.action = action;
         setLocation(location);
         setVisible(true);
-        return selectedTarget;
     }
 }
