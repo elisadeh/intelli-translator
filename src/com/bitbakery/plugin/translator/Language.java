@@ -75,8 +75,12 @@ public class Language implements Comparable<Language> {
     }
 
     public static Language getDefaultLanguage() {
-        // TODO - Note that this does NOT work for Chinese - we need the code + dialect!
-        return CODE_MAPPING.get(Locale.getDefault().getLanguage());
+        // TODO - Kill the hack, and actually handle dialects!
+        String languageCode = Locale.getDefault().getLanguage();
+        if (CHINESE.code.startsWith(languageCode)) {
+            return CHINESE;
+        }
+        return CODE_MAPPING.get(languageCode);
     }
 
     public static Language get(String code) {
