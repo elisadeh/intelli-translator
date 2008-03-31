@@ -1,11 +1,11 @@
 Translator plugin for IntelliJ IDEA 7.0+
-Version 1.1 - 2008/03/26
+Version 1.2 - 2008/03/31
 ----------------------------------------------------------------------------------------
 
 Requirements
 ------------
 
-- IntelliJ 7.0 or higher
+- IntelliJ 7.0 or higher (but not yet 8.0!)
   - Tested on Windows, Mac OS X 10.4, and Ubuntu 7.10
 - A live Internet connection
 

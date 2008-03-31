@@ -34,9 +34,11 @@ public class Language implements Comparable<Language> {
         TRANSLATIONS = new HashMap<Language, Language[]>();
         TRANSLATIONS.put(ARABIC, sort(ENGLISH));
         TRANSLATIONS.put(CHINESE, sort(ENGLISH));
-        TRANSLATIONS.put(ENGLISH, sort(ARABIC, CHINESE, FRENCH, GERMAN, ITALIAN, JAPANESE, KOREAN, PORTUGESE, RUSSIAN, SPANISH));
+        TRANSLATIONS.put(DUTCH, sort(ENGLISH));
+        TRANSLATIONS.put(ENGLISH, sort(ARABIC, CHINESE, DUTCH, FRENCH, GERMAN, GREEK, ITALIAN, JAPANESE, KOREAN, PORTUGESE, RUSSIAN, SPANISH));
         TRANSLATIONS.put(FRENCH, sort(ENGLISH, GERMAN));
         TRANSLATIONS.put(GERMAN, sort(ENGLISH, FRENCH));
+        TRANSLATIONS.put(GREEK, sort(ENGLISH));
         TRANSLATIONS.put(ITALIAN, sort(ENGLISH));
         TRANSLATIONS.put(JAPANESE, sort(ENGLISH));
         TRANSLATIONS.put(KOREAN, sort(ENGLISH));
@@ -48,10 +50,12 @@ public class Language implements Comparable<Language> {
 
         CODE_MAPPING = new HashMap<String, Language>();
         CODE_MAPPING.put(ARABIC.code, ARABIC);
+        CODE_MAPPING.put(DUTCH.code, DUTCH);
         CODE_MAPPING.put(CHINESE.code, CHINESE);
         CODE_MAPPING.put(ENGLISH.code, ENGLISH);
         CODE_MAPPING.put(FRENCH.code, FRENCH);
         CODE_MAPPING.put(GERMAN.code, GERMAN);
+        CODE_MAPPING.put(GREEK.code, GREEK);
         CODE_MAPPING.put(ITALIAN.code, ITALIAN);
         CODE_MAPPING.put(JAPANESE.code, JAPANESE);
         CODE_MAPPING.put(KOREAN.code, KOREAN);
