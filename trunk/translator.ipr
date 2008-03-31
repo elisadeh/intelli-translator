@@ -306,10 +306,6 @@
     <option name="GENERATE_IIOP_STUBS" value="false" />
     <option name="ADDITIONAL_OPTIONS_STRING" value="" />
   </component>
-  <component name="RubyDocSettings">
-    <RUBY_DOC NAME="DEFAULTS" VALUE="TRUE" />
-    <RUBY_DOC NAME="NUMBER" VALUE="0" />
-  </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="svn" />
   </component>

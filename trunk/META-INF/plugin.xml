@@ -1,13 +1,25 @@
 <!DOCTYPE idea-plugin PUBLIC "Plugin/DTD" "http://plugins.intellij.net/plugin.dtd">
 <idea-plugin>
     <name>Translator</name>
-    <description>Uses Google Translate to translate the selected text</description>
-    <version>1.1</version>
-    <vendor>The Bit Bakery</vendor>
+    <description>Uses Google Translate to translate the selected text. Select some text, hit alt/option - T, and away
+        you go.
+    </description>
+    <version>1.2</version>
+    <vendor url="http://www.bitbalery.com">The Bit Bakery</vendor>
 
-    <idea-version since-build="7000"/>
+
+    <idea-version since-build="7000" until-build="7999"/>
 
     <change-notes>
+        1.2 - Set 'until-build' attribute, since big plugin API changes are coming in version 8. Also added Greek and
+        Dutch translations.
+        <br/>
+        <br/>
+        1.1 - Fixed horrible, awful bug that would prevent you from opening IntelliJ after you had installed the plugin.
+        Yeah, I win a cookie for that one...
+        <br/>
+        <br/>
+        1.0 - First usable release.
     </change-notes>
 
     <application-components>
