@@ -54,7 +54,6 @@ public class TranslatorConfig implements ApplicationComponent, Configurable, Per
     @Nullable
     @NonNls
     public String getHelpTopic() {
-        // TODO - How does one get a help topic created and loaded? Is this it?
         return null;
     }
 
