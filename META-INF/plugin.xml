@@ -13,15 +13,15 @@
 
     <change-notes>
         1.3 - Moved popup menu text and description into the resource bundle - had been hardcoded in plugin.xml.
-        <br/>
+        <p/>
 
         1.2 - Set 'until-build' attribute, since big plugin API changes are coming in version 8. Also added Greek and
         Dutch translations.
-        <br/>
+        <p/>
 
         1.1 - Fixed horrible, awful bug that would prevent you from opening IntelliJ after you had installed the plugin.
         Yeah, I win a cookie for that one...
-        <br/>
+        <p/>
 
         1.0 - First usable release.
     </change-notes>

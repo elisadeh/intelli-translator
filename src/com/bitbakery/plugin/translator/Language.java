@@ -10,7 +10,8 @@ import java.util.Locale;
 public class Language implements Comparable<Language> {
 
     public static final Language ARABIC = new Language("ar");
-    public static final Language CHINESE = new Language("zh", "CN");
+    public static final Language CHINESE = new Language("zh", "CN"); // Simplified
+    // public static final Language CHINESE = new Language("zh", "TW"); // Traditional
     public static final Language DUTCH = new Language("nl");
     public static final Language ENGLISH = new Language("en");
     public static final Language FRENCH = new Language("fr");
@@ -33,7 +34,9 @@ public class Language implements Comparable<Language> {
     static {
         TRANSLATIONS = new HashMap<Language, Language[]>();
         TRANSLATIONS.put(ARABIC, sort(ENGLISH));
-        TRANSLATIONS.put(CHINESE, sort(ENGLISH));
+        TRANSLATIONS.put(CHINESE, sort(ENGLISH)); // zh --> en
+        // TRANSLATIONS.put(CHINESE-TRADITIONAL, sort(CHINESE-SIMPLIFIED)); // zh-TW --> zh-CN
+        // TRANSLATIONS.put(CHINESE-SIMPLIFIED, sort(CHINESE-TRADITIONAL)); // zh-CN --> zh-TW
         TRANSLATIONS.put(DUTCH, sort(ENGLISH));
         TRANSLATIONS.put(ENGLISH, sort(ARABIC, CHINESE, DUTCH, FRENCH, GERMAN, GREEK, ITALIAN, JAPANESE, KOREAN, PORTUGESE, RUSSIAN, SPANISH));
         TRANSLATIONS.put(FRENCH, sort(ENGLISH, GERMAN));
@@ -52,6 +55,8 @@ public class Language implements Comparable<Language> {
         CODE_MAPPING.put(ARABIC.code, ARABIC);
         CODE_MAPPING.put(DUTCH.code, DUTCH);
         CODE_MAPPING.put(CHINESE.code, CHINESE);
+        // CODE_MAPPING.put(CHINESE-SIMPLIFIED.code, CHINESE-SIMPLIFIED);
+        // CODE_MAPPING.put(CHINESE-TRADITIONAL.code, CHINESE-TRADITIONAL);
         CODE_MAPPING.put(ENGLISH.code, ENGLISH);
         CODE_MAPPING.put(FRENCH.code, FRENCH);
         CODE_MAPPING.put(GERMAN.code, GERMAN);
