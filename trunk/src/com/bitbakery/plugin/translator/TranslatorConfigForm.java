@@ -71,7 +71,7 @@ public class TranslatorConfigForm {
 
     private void createUIComponents() {
         sourceLanguages = new JComboBox();
-        for (Language source : Language.SOURCE_LANGUAGES) {
+        for (Language source : Language.LANGUAGES) {
             sourceLanguages.addItem(source);
         }
         sourceLanguages.addItemListener(new ItemListener() {

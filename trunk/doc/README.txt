@@ -1,5 +1,5 @@
 Translator plugin for IntelliJ IDEA 7.0+
-Version 1.3 - 2008/04/06
+Version 1.4 - 2008/05/09
 ----------------------------------------------------------------------------------------
 
 Requirements
@@ -44,7 +44,7 @@ And now a word from our sponsor...
 ----------------------------------
 
 Thank you for trying out Translator. This plugin is very similar to another plugin
-("Google Translator"), but I needed a slightly different UI for what I needed (to create
+("Google Translator"), but I needed a slightly different UI (to create
 quick and dirty resource files for other languages). Hopefully you'll find it useful as well.
 
 
