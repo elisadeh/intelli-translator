@@ -1,8 +1,6 @@
 package com.bitbakery.plugin.translator;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * Encapsulates details about what Google Translate supports, and what it doesn't
@@ -10,63 +8,65 @@ import java.util.Locale;
 public class Language implements Comparable<Language> {
 
     public static final Language ARABIC = new Language("ar");
+    public static final Language BULGARIAN = new Language("bg");
     public static final Language CHINESE = new Language("zh", "CN"); // Simplified
     // public static final Language CHINESE = new Language("zh", "TW"); // Traditional
+    public static final Language CROATIAN = new Language("hr");
+    public static final Language CZECH = new Language("cs");
+    public static final Language DANISH = new Language("da");
     public static final Language DUTCH = new Language("nl");
     public static final Language ENGLISH = new Language("en");
+    public static final Language FINNISH = new Language("fi");
     public static final Language FRENCH = new Language("fr");
     public static final Language GERMAN = new Language("de");
     public static final Language GREEK = new Language("el");
+    public static final Language HINDI = new Language("hi");
     public static final Language ITALIAN = new Language("it");
     public static final Language JAPANESE = new Language("ja");
     public static final Language KOREAN = new Language("ko");
+    public static final Language NORWEGIAN = new Language("no");
+    public static final Language POLISH = new Language("pl");
     public static final Language PORTUGESE = new Language("pt");
+    public static final Language ROMANIAN = new Language("ro");
     public static final Language RUSSIAN = new Language("ru");
     public static final Language SPANISH = new Language("es");
+    public static final Language SWEDISH = new Language("sv");
 
 
-    private static HashMap<Language, Language[]> TRANSLATIONS;
     private static HashMap<String, Language> CODE_MAPPING;
-
-    public static Language[] SOURCE_LANGUAGES;
-
+    public static Language[] LANGUAGES;
 
     static {
-        TRANSLATIONS = new HashMap<Language, Language[]>();
-        TRANSLATIONS.put(ARABIC, sort(ENGLISH));
-        TRANSLATIONS.put(CHINESE, sort(ENGLISH)); // zh --> en
-        // TRANSLATIONS.put(CHINESE-TRADITIONAL, sort(CHINESE-SIMPLIFIED)); // zh-TW --> zh-CN
-        // TRANSLATIONS.put(CHINESE-SIMPLIFIED, sort(CHINESE-TRADITIONAL)); // zh-CN --> zh-TW
-        TRANSLATIONS.put(DUTCH, sort(ENGLISH));
-        TRANSLATIONS.put(ENGLISH, sort(ARABIC, CHINESE, DUTCH, FRENCH, GERMAN, GREEK, ITALIAN, JAPANESE, KOREAN, PORTUGESE, RUSSIAN, SPANISH));
-        TRANSLATIONS.put(FRENCH, sort(ENGLISH, GERMAN));
-        TRANSLATIONS.put(GERMAN, sort(ENGLISH, FRENCH));
-        TRANSLATIONS.put(GREEK, sort(ENGLISH));
-        TRANSLATIONS.put(ITALIAN, sort(ENGLISH));
-        TRANSLATIONS.put(JAPANESE, sort(ENGLISH));
-        TRANSLATIONS.put(KOREAN, sort(ENGLISH));
-        TRANSLATIONS.put(PORTUGESE, sort(ENGLISH));
-        TRANSLATIONS.put(RUSSIAN, sort(ENGLISH));
-        TRANSLATIONS.put(SPANISH, sort(ENGLISH));
-
-        SOURCE_LANGUAGES = sort(TRANSLATIONS.keySet().toArray(new Language[TRANSLATIONS.keySet().size()]));
+        LANGUAGES = sort(ARABIC, BULGARIAN, CHINESE, CROATIAN, CZECH, DANISH, DUTCH,
+                ENGLISH, FINNISH, FRENCH, GERMAN, GREEK, HINDI, ITALIAN, JAPANESE, KOREAN,
+                NORWEGIAN, POLISH, PORTUGESE, ROMANIAN, RUSSIAN, SPANISH, SWEDISH);
 
         CODE_MAPPING = new HashMap<String, Language>();
         CODE_MAPPING.put(ARABIC.code, ARABIC);
-        CODE_MAPPING.put(DUTCH.code, DUTCH);
+        CODE_MAPPING.put(BULGARIAN.code, BULGARIAN);
         CODE_MAPPING.put(CHINESE.code, CHINESE);
         // CODE_MAPPING.put(CHINESE-SIMPLIFIED.code, CHINESE-SIMPLIFIED);
         // CODE_MAPPING.put(CHINESE-TRADITIONAL.code, CHINESE-TRADITIONAL);
+        CODE_MAPPING.put(CROATIAN.code, CROATIAN);
+        CODE_MAPPING.put(CZECH.code, CZECH);
+        CODE_MAPPING.put(DANISH.code, DANISH);
+        CODE_MAPPING.put(DUTCH.code, DUTCH);
         CODE_MAPPING.put(ENGLISH.code, ENGLISH);
+        CODE_MAPPING.put(FINNISH.code, FINNISH);
         CODE_MAPPING.put(FRENCH.code, FRENCH);
         CODE_MAPPING.put(GERMAN.code, GERMAN);
         CODE_MAPPING.put(GREEK.code, GREEK);
+        CODE_MAPPING.put(HINDI.code, HINDI);
         CODE_MAPPING.put(ITALIAN.code, ITALIAN);
         CODE_MAPPING.put(JAPANESE.code, JAPANESE);
         CODE_MAPPING.put(KOREAN.code, KOREAN);
+        CODE_MAPPING.put(NORWEGIAN.code, NORWEGIAN);
+        CODE_MAPPING.put(POLISH.code, POLISH);
         CODE_MAPPING.put(PORTUGESE.code, PORTUGESE);
+        CODE_MAPPING.put(ROMANIAN.code, ROMANIAN);
         CODE_MAPPING.put(RUSSIAN.code, RUSSIAN);
         CODE_MAPPING.put(SPANISH.code, SPANISH);
+        CODE_MAPPING.put(SWEDISH.code, SWEDISH);
     }
 
     private static Language[] sort(Language... l) {
@@ -80,7 +80,10 @@ public class Language implements Comparable<Language> {
     }
 
     public static Language[] getTargetLanguages(Language source) {
-        return TRANSLATIONS.get(source);
+        List languages = new ArrayList(LANGUAGES.length);
+        languages.addAll(Arrays.asList(LANGUAGES));
+        languages.remove(source);
+        return (Language[]) languages.toArray(new Language[LANGUAGES.length - 1]);
     }
 
     public static Language getDefaultLanguage() {

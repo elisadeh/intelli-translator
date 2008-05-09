@@ -25,7 +25,7 @@ public class LanguagesTest {
         assertFalse(Language.isSupported("glurf"));
 
         // ...and make sure that we're internally consistent
-        for (Language lang : Language.SOURCE_LANGUAGES) {
+        for (Language lang : Language.LANGUAGES) {
             assertTrue(Language.isSupported(lang.code));
         }
     }
