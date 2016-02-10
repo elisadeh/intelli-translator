@@ -1,0 +1,1 @@
+IntelliJ plugin that uses Google Translate to translate text.
